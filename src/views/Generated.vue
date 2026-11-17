@@ -45,7 +45,7 @@ export default Vue.extend({
       );
     },
     copyText(assignment) {
-      var toBeCopied = ("Your Secret Santa assignment awaits 🎁🎅🏼🎄: https://encryptedsanta.netlify.app/#/decrypt/" + this.encryptName(assignment))
+      var toBeCopied = (this.name +  ", your Secret Santa assignment awaits 🎁🎅🏼🎄: https://encryptedsanta.netlify.app/#/decrypt/" + this.encryptName(assignment))
       navigator.clipboard.writeText(toBeCopied)
     }
   },
