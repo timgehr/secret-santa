@@ -5,21 +5,15 @@
       <div class="listColumn">
         <li
           class="names-list-item"
-          v-for="name in this.$store.state.names"
-          :key="name"
+          v-for="pair in this.$store.state.pairs"
+          v-on:click="copyText(pair)"
+          :key="pair"
         >
-          {{ name }}
-        </li>
-      </div>
-
-      <div class="listColumn">
-        <li
-          class="names-list-item"
-          v-on:click="copyText(assignment)"
-          v-for="assignment in this.$store.state.assignments"
-          :key="assignment"
-        >
-          🎁
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+            <span>{{ pair.name }}</span>
+            <span style="margin-left: 10px;"></span>
+            <span style="margin-left: 10px;">🎁</span>
+          </div>
         </li>
       </div>
     </ul>
@@ -44,8 +38,8 @@ export default Vue.extend({
         CryptoJS.AES.encrypt(name, "2021").toString()
       );
     },
-    copyText(assignment) {
-      var toBeCopied = (this.name +  ", your Secret Santa assignment awaits 🎁🎅🏼🎄: https://encryptedsanta.netlify.app/#/decrypt/" + this.encryptName(assignment))
+    copyText(pair) {
+      var toBeCopied = (pair.name +  ", your Secret Santa assignment awaits 🎁🎅🏼🎄: https://encryptedsanta.netlify.app/#/decrypt/" + this.encryptName(pair.assignment))
       navigator.clipboard.writeText(toBeCopied)
     }
   },

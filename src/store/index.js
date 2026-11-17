@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     names: [],
-    assignments: []
+    assignments: [],
+    pairs: []
   },
   mutations: {
     generateNamesList(state, payload) {
@@ -19,6 +20,11 @@ export default new Vuex.Store({
         }
         state.assignments[state.names.length-1] = state.names[0]
         state.assignments, state.names = shuffleTwoArrays(state.assignments, state.names)
+        state.pairs = []
+        for (let i = 0; i < state.names.length; i++) {
+          state.pairs.push({name: state.names[i], assignment: state.assignments[i]})
+        }
+
       }
 
       shuffle();

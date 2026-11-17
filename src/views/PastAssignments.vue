@@ -30,6 +30,18 @@
             </option>
           </select>
         </div>
+        <div>
+          <select v-model="pastAssignments[name][2]" class="past-assignment">
+            <option
+              v-for="name in names.filter(n => n !== name)"
+              :key="name"
+              :value="name"
+              class="past-option"
+            >
+              {{ name }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
     <button class="reveal" v-on:click="encryptThatJawn">Generate</button>
