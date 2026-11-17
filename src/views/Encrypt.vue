@@ -10,7 +10,9 @@
       v-model="input.name"
       autocapitalize="words"
     />
-    <button class="reveal" v-on:click="encryptThatJawn">Encrypt</button>
+    <div class="flex gap-30">
+    <button class="reveal" v-on:click="goToHistory">Next</button>
+    </div>
     <ul class="names-list flex">
       <!-- Your Participants: -->
       <li
@@ -56,6 +58,10 @@ export default Vue.extend({
       this.$store.commit("generateNamesList", this.names);
       this.$router.push("generated");
     },
+    goToHistory() {
+      this.$store.state.names = this.names;
+      this.$router.push("history");
+    },
   },
 });
 </script>
@@ -90,17 +96,12 @@ export default Vue.extend({
 }
 
 .santa img:hover {
-  filter: saturate(0);
 }
 
 .santa p {
   font-size: 20px;
   margin: 0px;
   color: white;
-}
-
-.santa:hover p {
-  color: rgb(201, 0, 0);
 }
 
 .encrypt::before {
@@ -114,7 +115,7 @@ input {
   box-shadow: 0px 9px 8px -5px rgb(0, 0, 0);
   height: 60px;
   width: 500px;
-  border-radius: 6px;
+  border-radius: 14px;
   border: 0px;
   /* margin: 20px 20px 20px 20px; */
   padding: 15px;
@@ -154,17 +155,22 @@ input:focus {
   align-items: center;
   gap: 20px;
 }
-.names-list li:hover {
+
+.names-list li:hover p{
   color: rgb(201, 0, 0);
+}
+.names-list li:hover img{
+  filter: saturate(0);
 }
 
 button {
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   /* font-family: "Castoro", serif; */
   font-size: 30px;
   width: 200px;
   height: 60px;
-  border-radius: 4px;
+  border-radius: 10px;
   border: 0px;
   outline: 0px;
   background: rgb(158, 0, 0);

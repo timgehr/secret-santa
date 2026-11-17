@@ -9,14 +9,36 @@ export default new Vuex.Store({
     assignments: []
   },
   mutations: {
-    generateNamesList(state, gotNames) {
-      state.names = shuffleArray(gotNames)
-      for (var i = 0; i < state.names.length - 1; i++) {
-        state.assignments[i] = state.names[i+1]
+    generateNamesList(state, payload) {
+      let gotNames = payload.names
+      let pastAssignments = payload.pastAssignments
+      let shuffle = () => {
+        state.names = shuffleArray(gotNames)
+        for (let i = 0; i < state.names.length - 1; i++) {
+          state.assignments[i] = state.names[i+1]
+        }
+        state.assignments[state.names.length-1] = state.names[0]
+        state.assignments, state.names = shuffleTwoArrays(state.assignments, state.names)
       }
-      state.assignments[state.names.length-1] = state.names[0]
 
-      state.assignments, state.names = shuffleTwoArrays(state.assignments, state.names)
+      shuffle();
+      
+      
+      if (pastAssignments !== null) {
+        let runs = 0
+        let good = false
+        while (runs < 100 && !good) {
+          runs++
+          good = true
+        for (let i = 0; i < state.names.length; i++) {
+          if ( pastAssignments[state.names[i]].includes(state.assignments[i])) {            
+            shuffle();
+            i = 0
+            good = false
+          }
+        }
+      }
+      }
     }
   },
   actions: {
@@ -26,9 +48,9 @@ export default new Vuex.Store({
 })
 
 function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = array[i];
       array[i] = array[j];
       array[j] = temp;
   }
@@ -36,14 +58,14 @@ function shuffleArray(array) {
 }
 
 function shuffleTwoArrays(array1, array2) {
-  for (var i = array1.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp1 = array1[i];
+  for (let i = array1.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp1 = array1[i];
       array1[i] = array1[j];
       array1[j] = temp1;
 
       
-      var temp2 = array2[i];
+      let temp2 = array2[i];
       array2[i] = array2[j];
       array2[j] = temp2;
   }

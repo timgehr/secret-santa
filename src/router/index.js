@@ -3,18 +3,13 @@ import VueRouter from 'vue-router'
 import Encrypt from '../views/Encrypt.vue'
 import Decrypt from '../views/Decrypt.vue'
 import Generated from '../views/Generated.vue'
-import Home from '../views/Home.vue'
+import PastAssignments from '../views/PastAssignments.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/encrypt',
     name: 'Encrypt',
     component: Encrypt
   },
@@ -22,6 +17,11 @@ const routes = [
     path: '/decrypt/:id',
     name: 'Decrypt',
     component: Decrypt
+  },
+  {
+    path: '/history',
+    name: 'PastAssignments',
+    component: PastAssignments
   },
   {
     path: '/generated',
