@@ -1,6 +1,6 @@
 <template>
   <div class="generated">
-    <div id="topbar">Assignments:</div>
+    <div id="topbar">Assignments: <span>{{ (checkNoRepeats() && checkNoSelfAssignments() && checkNoRepeatOfPastAssignments()) ? "✅" : "❌" }}</span></div>
     <ul class="names-list">
       <div class="listColumn">
         <li
@@ -11,7 +11,6 @@
         >
           <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
             <span>{{ pair.name }}</span>
-            <span style="margin-left: 10px;"></span>
             <span style="margin-left: 10px;">🎁</span>
           </div>
         </li>
@@ -33,13 +32,35 @@ export default Vue.extend({
     };
   },
   methods: {
+    checkNoRepeats() {
+      let testAssignments = new Set(this.$store.state.assignments);
+      return testAssignments.size === this.$store.state.assignments.length;
+    },
+    checkNoSelfAssignments() {
+      for (var i = 0; i < this.$store.state.assignments.length; i++) {
+        if (this.$store.state.assignments[i] === this.$store.state.names[i]) {
+          return false;
+        }
+      }
+      return true;
+    },
+    checkNoRepeatOfPastAssignments() {
+      for (var i = 0; i < this.$store.state.assignments.length; i++) {
+        let name = this.$store.state.names[i];
+        let assignment = this.$store.state.assignments[i];
+        if (this.$store.state.pastAssignments[name].includes(assignment)) {
+          return false;
+        }
+      }
+      return true;
+    },
     encryptName(name) {
       return btoa(
         CryptoJS.AES.encrypt(name, "2021").toString()
       );
     },
     copyText(pair) {
-      var toBeCopied = (pair.name +  ", your Secret Santa assignment awaits 🎁🎅🏼🎄: https://encryptedsanta.netlify.app/#/decrypt/" + this.encryptName(pair.assignment))
+      var toBeCopied = (pair.name +  ", here's your secret santa assignment 🎁🎅🏼🎄: https://encryptedsanta.netlify.app/#/decrypt/" + this.encryptName(pair.assignment))
       navigator.clipboard.writeText(toBeCopied)
     }
   },
@@ -74,5 +95,6 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 200;
 }
 </style>

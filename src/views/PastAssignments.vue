@@ -42,6 +42,30 @@
             </option>
           </select>
         </div>
+        <div>
+          <select v-model="pastAssignments[name][3]" class="past-assignment">
+            <option
+              v-for="name in names.filter(n => n !== name)"
+              :key="name"
+              :value="name"
+              class="past-option"
+            >
+              {{ name }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <select v-model="pastAssignments[name][4]" class="past-assignment">
+            <option
+              v-for="name in names.filter(n => n !== name)"
+              :key="name"
+              :value="name"
+              class="past-option"
+            >
+              {{ name }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
     <button class="reveal" v-on:click="encryptThatJawn">Generate</button>
@@ -57,8 +81,8 @@ export default Vue.extend({
     return {
       res: "",
       errmess: "",
-      pastAssignments: Object.fromEntries(
-        this.$store.state.names.map((name) => [name, ["", ""]])
+      pastAssignments: this.$store.state.pastAssignments || Object.fromEntries(
+        this.$store.state.names.map((name) => [name, ["", "", "", "", ""]])
       ),
       year: new Date().getFullYear(),
     };
@@ -70,6 +94,7 @@ export default Vue.extend({
         pastAssignments: JSON.parse(JSON.stringify(this.pastAssignments)),
       };
       this.$store.commit("generateNamesList", payload);
+      this.$store.state.pastAssignments = JSON.parse(JSON.stringify(this.pastAssignments));
       this.$router.push("generated");
     },
   },
@@ -132,6 +157,7 @@ export default Vue.extend({
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  z-index: 100;
 }
 
 .reveal{
